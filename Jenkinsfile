@@ -17,13 +17,14 @@ pipeline {
                 stage('Chrome') {
                     steps {
                         ws("${env.WORKSPACE}@chrome") {
+
                             checkout scm
 
-                            try {
+                            catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                 bat 'mvn test -Dbrowser=chrome'
-                            } finally {
-                                junit 'target/surefire-reports/TEST-*.xml'
                             }
+
+                            junit 'target/surefire-reports/TEST-*.xml'
                         }
                     }
                 }
@@ -31,13 +32,14 @@ pipeline {
                 stage('Firefox') {
                     steps {
                         ws("${env.WORKSPACE}@firefox") {
+
                             checkout scm
 
-                            try {
+                            catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                 bat 'mvn test -Dbrowser=firefox'
-                            } finally {
-                                junit 'target/surefire-reports/TEST-*.xml'
                             }
+
+                            junit 'target/surefire-reports/TEST-*.xml'
                         }
                     }
                 }
@@ -45,13 +47,14 @@ pipeline {
                 stage('Edge') {
                     steps {
                         ws("${env.WORKSPACE}@edge") {
+
                             checkout scm
 
-                            try {
+                            catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                 bat 'mvn test -Dbrowser=edge'
-                            } finally {
-                                junit 'target/surefire-reports/TEST-*.xml'
                             }
+
+                            junit 'target/surefire-reports/TEST-*.xml'
                         }
                     }
                 }
