@@ -4,28 +4,55 @@ pipeline {
 
     stages {
 
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat 'mvn clean compile test-compile'
+            }
+        }
+
         stage('Parallel Browser Tests') {
 
             parallel {
 
                 stage('Chrome') {
                     steps {
-                        bat 'mvn clean test -Dbrowser=chrome'
+                        bat 'mvn test -Dbrowser=chrome'
                     }
                 }
 
                 stage('Firefox') {
                     steps {
-                        bat 'mvn clean test -Dbrowser=firefox'
+                        bat 'mvn test -Dbrowser=firefox'
                     }
                 }
 
                 stage('Edge') {
                     steps {
-                        bat 'mvn clean test -Dbrowser=edge'
+                        bat 'mvn test -Dbrowser=edge'
                     }
                 }
             }
+        }
+    }
+
+    post {
+
+        always {
+            echo 'Pipeline execution completed.'
+        }
+
+        success {
+            echo 'All browser tests passed.'
+        }
+
+        failure {
+            echo 'One or more browser tests failed.'
         }
     }
 }
