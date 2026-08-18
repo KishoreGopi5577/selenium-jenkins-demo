@@ -4,12 +4,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
                 bat 'mvn clean compile test-compile'
@@ -22,19 +16,46 @@ pipeline {
 
                 stage('Chrome') {
                     steps {
-                        bat 'mvn test -Dbrowser=chrome'
+                        ws("${env.WORKSPACE}@chrome") {
+                            checkout scm
+                            bat 'mvn test -Dbrowser=chrome'
+                        }
+                    }
+
+                    post {
+                        always {
+                            junit 'target/surefire-reports/TEST-*.xml'
+                        }
                     }
                 }
 
                 stage('Firefox') {
                     steps {
-                        bat 'mvn test -Dbrowser=firefox'
+                        ws("${env.WORKSPACE}@firefox") {
+                            checkout scm
+                            bat 'mvn test -Dbrowser=firefox'
+                        }
+                    }
+
+                    post {
+                        always {
+                            junit 'target/surefire-reports/TEST-*.xml'
+                        }
                     }
                 }
 
                 stage('Edge') {
                     steps {
-                        bat 'mvn test -Dbrowser=edge'
+                        ws("${env.WORKSPACE}@edge") {
+                            checkout scm
+                            bat 'mvn test -Dbrowser=edge'
+                        }
+                    }
+
+                    post {
+                        always {
+                            junit 'target/surefire-reports/TEST-*.xml'
+                        }
                     }
                 }
             }
