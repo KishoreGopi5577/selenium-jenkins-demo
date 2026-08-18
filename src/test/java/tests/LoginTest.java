@@ -41,7 +41,7 @@ public class LoginTest {
             driver = new FirefoxDriver(options);
 
         } else {
-                WebDriverManager.firefoxdriver().setup();
+        	WebDriverManager.edgedriver().browserVersion("151").setup();
 
                 EdgeOptions options = new EdgeOptions();
                 options.addArguments("-headless");
