@@ -36,5 +36,7 @@ public class LoginTest {
 
             driver.quit();
         }
+        
+        System.out.println("The test is successful");
     }
 }
