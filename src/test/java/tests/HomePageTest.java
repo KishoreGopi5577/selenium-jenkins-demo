@@ -8,10 +8,10 @@ import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class LoginTest {
+public class HomePageTest {
 
     @Test
-    public void verifySeleniumWebsite() throws InterruptedException {
+    public void verifyHomePage() throws InterruptedException {
 
         WebDriverManager.chromedriver().setup();
 
@@ -25,23 +25,16 @@ public class LoginTest {
 
             driver.get("https://www.selenium.dev/");
 
-            String title = driver.getTitle();
-
-            System.out.println("Page Title: " + title);
-            
-            System.out.println("LoginTest - Thread: "
+            System.out.println("HomePageTest - Thread: "
                     + Thread.currentThread().getId());
 
             Thread.sleep(5000);
 
-            Assert.assertTrue(title.contains("Selenium"),
-                    "Title does not contain Selenium");
+            Assert.assertTrue(driver.getTitle().contains("Selenium"));
 
         } finally {
 
             driver.quit();
         }
-        
-        System.out.println("The test is successful");
     }
 }
