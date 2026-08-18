@@ -18,13 +18,12 @@ pipeline {
                     steps {
                         ws("${env.WORKSPACE}@chrome") {
                             checkout scm
-                            bat 'mvn test -Dbrowser=chrome'
-                        }
-                    }
 
-                    post {
-                        always {
-                            junit 'target/surefire-reports/TEST-*.xml'
+                            try {
+                                bat 'mvn test -Dbrowser=chrome'
+                            } finally {
+                                junit 'target/surefire-reports/TEST-*.xml'
+                            }
                         }
                     }
                 }
@@ -33,13 +32,12 @@ pipeline {
                     steps {
                         ws("${env.WORKSPACE}@firefox") {
                             checkout scm
-                            bat 'mvn test -Dbrowser=firefox'
-                        }
-                    }
 
-                    post {
-                        always {
-                            junit 'target/surefire-reports/TEST-*.xml'
+                            try {
+                                bat 'mvn test -Dbrowser=firefox'
+                            } finally {
+                                junit 'target/surefire-reports/TEST-*.xml'
+                            }
                         }
                     }
                 }
@@ -48,13 +46,12 @@ pipeline {
                     steps {
                         ws("${env.WORKSPACE}@edge") {
                             checkout scm
-                            bat 'mvn test -Dbrowser=edge'
-                        }
-                    }
 
-                    post {
-                        always {
-                            junit 'target/surefire-reports/TEST-*.xml'
+                            try {
+                                bat 'mvn test -Dbrowser=edge'
+                            } finally {
+                                junit 'target/surefire-reports/TEST-*.xml'
+                            }
                         }
                     }
                 }
