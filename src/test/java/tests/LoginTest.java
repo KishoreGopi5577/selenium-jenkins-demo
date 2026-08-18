@@ -3,6 +3,8 @@ package tests;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.Assert;
@@ -39,9 +41,12 @@ public class LoginTest {
             driver = new FirefoxDriver(options);
 
         } else {
+                WebDriverManager.firefoxdriver().setup();
 
-            throw new IllegalArgumentException(
-                    "Unsupported browser: " + browser);
+                EdgeOptions options = new EdgeOptions();
+                options.addArguments("-headless");
+
+                driver = new EdgeDriver(options);
         }
 
         try {
