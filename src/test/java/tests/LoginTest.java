@@ -17,38 +17,43 @@ public class LoginTest {
     @Test
     public void verifySeleniumWebsite() throws InterruptedException {
 
-        String browser = System.getProperty("browser");
-        System.out.println("////////////////////////"+browser);
-        WebDriver driver;
+    	String browser = System.getProperty("browser", "chrome");
 
-        if (browser.equalsIgnoreCase("chrome")) {
+    	WebDriver driver;
 
-            WebDriverManager.chromedriver().setup();
+    	if (browser.equalsIgnoreCase("chrome")) {
 
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
-            options.addArguments("--window-size=1920,1080");
+    	    WebDriverManager.chromedriver().setup();
 
-            driver = new ChromeDriver(options);
+    	    ChromeOptions options = new ChromeOptions();
+    	    options.addArguments("--headless");
+    	    options.addArguments("--window-size=1920,1080");
 
-        } else if (browser.equalsIgnoreCase("firefox")) {
+    	    driver = new ChromeDriver(options);
 
-            WebDriverManager.firefoxdriver().setup();
+    	} else if (browser.equalsIgnoreCase("firefox")) {
 
-            FirefoxOptions options = new FirefoxOptions();
-            options.addArguments("-headless");
+    	    WebDriverManager.firefoxdriver().setup();
 
-            driver = new FirefoxDriver(options);
+    	    FirefoxOptions options = new FirefoxOptions();
+    	    options.addArguments("-headless");
 
-        } else {
-        	WebDriverManager.edgedriver().browserVersion("151").setup();
+    	    driver = new FirefoxDriver(options);
 
-                EdgeOptions options = new EdgeOptions();
-                options.addArguments("-headless");
+    	} else if (browser.equalsIgnoreCase("edge")) {
 
-                driver = new EdgeDriver(options);
-        }
+    	    WebDriverManager.edgedriver().setup();
 
+    	    EdgeOptions options = new EdgeOptions();
+    	    options.addArguments("-headless");
+
+    	    driver = new EdgeDriver(options);
+
+    	} else {
+
+    	    throw new IllegalArgumentException(
+    	            "Unsupported browser: " + browser);
+    	}
         try {
 
             driver.get("https://www.selenium.dev/");
@@ -57,7 +62,8 @@ public class LoginTest {
 
             System.out.println("Page Title: " + title);
             
-            System.out.println("LoginTest - Thread: "
+            System.out.println("HomePageTest - Browser: " + browser);
+            System.out.println("HomePageTest - Thread: "
                     + Thread.currentThread().getId());
 
             Thread.sleep(5000);
