@@ -13,13 +13,24 @@ public class LoginTest {
     @Test
     public void verifySeleniumWebsite() throws InterruptedException {
 
-        WebDriverManager.chromedriver().setup();
+        String browser = System.getProperty("browser");
+        System.out.println("////////////////////////"+browser);
+        WebDriver driver;
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        options.addArguments("--window-size=1920,1080");
+        if (browser.equalsIgnoreCase("chrome")) {
 
-        WebDriver driver = new ChromeDriver(options);
+            WebDriverManager.chromedriver().setup();
+
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
+            options.addArguments("--window-size=1920,1080");
+
+            driver = new ChromeDriver(options);
+
+        } else {
+            throw new IllegalArgumentException(
+                    "Unsupported browser: " + browser);
+        }
 
         try {
 
